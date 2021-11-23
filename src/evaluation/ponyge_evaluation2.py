@@ -18,7 +18,7 @@ ponyge_examples = {
     'seed_run_target': 'parameters/seed_run_target.txt',
     'GE_parse': 'parameters/GE_parse.txt',
     # Progsys
-    'number_io': None,
+    'number_io': 'parameters/number_io.txt',
     'median': None,
     'smallest': None,
     'sum_of_squares': None,
@@ -28,7 +28,7 @@ ponyge_examples = {
 def evaluate_ponyge2(examples):
         
     if len(examples) > 0:
-        run_examples = dict([(name, function) for name, function in ponyge_examples.items() if name in examples])
+        run_examples = dict([(name, function) for name, function in ponyge_examples.items() if name in examples and function != None])
 
     else:
         run_examples = ponyge_examples
