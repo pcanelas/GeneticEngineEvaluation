@@ -2,7 +2,7 @@ GeneticEngine
 PonyGE2
 *.pdf
 *.csv
-
+results/
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]
