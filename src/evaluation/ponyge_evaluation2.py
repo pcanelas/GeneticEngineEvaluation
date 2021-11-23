@@ -3,6 +3,8 @@ import logging
 import os 
 import shutil
 
+import src.evaluation.helper as helper
+
 # Configuration variables
 PONYGE_PATH = 'PonyGE2/'
 
@@ -31,6 +33,8 @@ def evaluate_ponyge2(examples):
     else:
         run_examples = ponyge_examples
 
+    helper.create_folder('results/ponyge/')
+
     for name, parameter_path in run_examples.items():        
         
         logging.info(f"PonyGE: Executing the example: {name}")
@@ -46,7 +50,7 @@ def evaluate_ponyge2(examples):
 
 
         # Run 30 times with 30 different seeds
-        for seed in range(10):
+        for seed in range(30):
             subprocess.call(["python3.9", filepath, 
                              '--parameters', parameter_path, 
                              '--random_seed', str(seed),])

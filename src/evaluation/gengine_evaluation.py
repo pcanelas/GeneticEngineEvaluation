@@ -2,7 +2,7 @@ import sys
 import logging
 import multiprocessing as mp
 from time import perf_counter_ns, process_time
-
+import pandas as pd
 import src.evaluation.helper as helper
 
 # Configuration variables
@@ -44,6 +44,8 @@ def execute_evaluation(preprocess_method, evol_method, seed, queue):
 # Function to evaluate the GeneticEngine
 def evaluate_geneticengine(examples: list):
     
+    times = dict()
+
     if len(examples) > 0:
         run_examples = dict([(name, function) for name, function in gengine_examples.items() if name in examples])
 
@@ -62,9 +64,8 @@ def evaluate_geneticengine(examples: list):
         evol_method = helper.get_eval_method(filepath, 'evolve')
         
         # Accumulate the results
-        result_process_time = list() 
-        result_evolution_time = list()
-
+        example_times = list()
+        
         # Run 30 times with 30 different seeds
         for seed in range(30):
             queue = mp.Queue()
@@ -77,8 +78,8 @@ def evaluate_geneticengine(examples: list):
             process.start()
             process.join()
 
-            result_process_time.append(queue.get())
-            result_evolution_time.append(queue.get())
-            best_individual = queue.get()
-            best_fitness = queue.get()
-        
+            example_times.append([queue.get(), queue.get()])
+
+        times[name] = pd.DataFrame(example_times, columns=['processing_time', 'evolution_time'])
+    
+    helper.write_to_csv_times(times)
