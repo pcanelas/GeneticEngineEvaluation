@@ -17,9 +17,10 @@ def plot_df(ponyge_df, gengine_df, example, col_name, mode):
     plt.xticks([1,2], tix, rotation=0, fontsize=12)
     if mode == 'generations':
         plt.title(f"{col_name.capitalize()} time per Tool")
+        ax.set_ylabel("Time (s)", fontsize=12)
     else:
         plt.title(f'Best fitness after time limit per tool')
-    ax.set_ylabel("Fitness", fontsize=12)
+        ax.set_ylabel("Fitness", fontsize=12)
     ax.set_xlabel('Tools', fontsize=12)
 
     ax.set_ylim(ymin=0)
