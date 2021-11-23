@@ -34,7 +34,7 @@ def execute_tests(name, parameter_path, mode):
 
 
     # Run 30 times with 30 different seeds
-    for seed in range(2):
+    for seed in range(30):
         subprocess.call(["python3.9", filepath, 
                             '--parameters', parameter_path, 
                             '--random_seed', str(seed),
