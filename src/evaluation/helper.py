@@ -16,28 +16,34 @@ def create_folder(path):
         # directory already exists
         pass
 
-def import_data(examples, path, delimiter):
+def import_data(examples, path, mode, delimiter):
 
     onlyfiles = [f for f in listdir(path) if isfile(join(path, f))]
     
-    times = dict()
+    res = dict()
 
     for name in examples:
-        if f'{name}.csv' in onlyfiles:
-            times[name] = pd.read_csv(path + f'{name}.csv', sep=delimiter)
+        if f'{name}_{mode}.csv' in onlyfiles:
+            res[name] = pd.read_csv(path + f'{name}_{mode}.csv', sep=delimiter)
     
-    return times
+    return res
 
-def write_to_csv_times(times):
+def write_to_csv_times(times, mode):
     path = 'results/gengine/'
     create_folder(path)
 
     for name, dataframe in times.items():
 
-        f = open(f"results/gengine/{name}.csv", "w")
-        f.write("processing_time,evolution_time")
+        f = open(f"results/gengine/{name}_{mode}.csv", "w")
 
-        for index, row in dataframe.iterrows():
-            f.write(f"\n{row.loc['processing_time']},{row.loc['evolution_time']}")
+        if mode == 'generations':
+            f.write("processing_time,evolution_time")
+            for _, row in dataframe.iterrows():
+                f.write(f"\n{row.loc['processing_time']},{row.loc['evolution_time']}")
+        
+        else:
+            f.write("best_fitness")
+            for index, row in dataframe.iterrows():
+                f.write(f"\n{row.loc['best_fitness']}")
         
         f.close()        

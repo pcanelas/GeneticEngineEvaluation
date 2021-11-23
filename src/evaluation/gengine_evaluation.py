@@ -23,7 +23,7 @@ gengine_examples = {
     'sum_of_squares': 'examples/progsys/Sum_of_Squares.py',
 }
 
-def execute_evaluation(preprocess_method, evol_method, seed, queue):
+def execute_evaluation(preprocess_method, evol_method, seed, mode, queue):
 
     # Check the processing time
     processing_time = perf_counter_ns()
@@ -32,19 +32,21 @@ def execute_evaluation(preprocess_method, evol_method, seed, queue):
 
     # Check the evolution time
     evolution_time = perf_counter_ns()
-    best_individual, best_fitness = evol_method(algorithm, seed)
+    best_individual, best_fitness = evol_method(algorithm, seed, mode == 'timer')
     evolution_time = perf_counter_ns() - evolution_time
 
-    queue.put(processing_time)
-    queue.put(evolution_time)
-    queue.put(best_individual)
-    queue.put(best_fitness)
-
+    if mode == 'timer':
+        queue.put(best_fitness)
+    else:
+        queue.put(processing_time)
+        queue.put(evolution_time)
+    
+    #queue.put(best_individual)
 
 # Function to evaluate the GeneticEngine
-def evaluate_geneticengine(examples: list):
+def evaluate_geneticengine(examples: list, mode):
     
-    times = dict()
+    dataframe = dict()
 
     if len(examples) > 0:
         run_examples = dict([(name, function) for name, function in gengine_examples.items() if name in examples])
@@ -64,22 +66,27 @@ def evaluate_geneticengine(examples: list):
         evol_method = helper.get_eval_method(filepath, 'evolve')
         
         # Accumulate the results
-        example_times = list()
+        output_list = list()
         
         # Run 30 times with 30 different seeds
-        for seed in range(30):
+        for seed in range(2):
             queue = mp.Queue()
 
             process = mp.Process(target=execute_evaluation, 
                                     args=(preprocess_method, 
                                         evol_method,
                                         seed,
+                                        mode,
                                         queue))
             process.start()
             process.join()
+            
+            output = [queue.get()] if mode == 'timer' else [queue.get(), queue.get()]
+            
+            output_list.append(output)
 
-            example_times.append([queue.get(), queue.get()])
-
-        times[name] = pd.DataFrame(example_times, columns=['processing_time', 'evolution_time'])
+        cols = ['best_fitness'] if mode == 'timer' else ['processing_time', 'evolution_time'] 
+        
+        dataframe[name] = pd.DataFrame(output_list, columns=cols)
     
-    helper.write_to_csv_times(times)
+    helper.write_to_csv_times(dataframe, mode)

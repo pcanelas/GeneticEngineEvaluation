@@ -13,10 +13,15 @@ if __name__ == '__main__':
     logging.getLogger().setLevel(logging.INFO)
     
     if len(sys.argv) > 1:
-        examples = sys.argv[1:]
+        examples = sys.argv[2:]
     else:
         examples = list()
+    
+    # --mode=generations or --mode=timer
+    if len(sys.argv) < 2 or '--mode=' not in sys.argv[1]:
+        raise Exception('The --mode=generations or --mode=timer should be included after ./run_evaluation.sh')
+    mode = sys.argv[1].split('=')[1]
 
     #evaluate_ponyge(examples)
-    evaluate_ponyge2(examples)
-    evaluate_geneticengine(examples)
+    #evaluate_ponyge2(examples, mode)
+    evaluate_geneticengine(examples, mode)
