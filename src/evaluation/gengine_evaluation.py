@@ -13,9 +13,10 @@ gengine_examples = {
     # Examples
     'pymax': 'examples/pymax.py',
     'santafe': 'examples/santafe.py',
-    'regression': 'examples/regression_example.py',
+    'regression': 'examples/regression.py',
     'vectorial': 'examples/vectorialgp_example.py',
     'string_match': 'examples/string_match.py',
+    'game_of_life': 'examples/game_of_life.py',
 
     # Progsys
     'median': 'examples/progsys/Median.py',
@@ -48,6 +49,9 @@ def execute_evaluation(preprocess_method, evol_method, seed, mode, queue):
 def evaluate_geneticengine(examples: list, mode):
 
     os.chdir('GeneticEngine/')
+    
+    for e in examples:
+        assert e in gengine_examples.keys(), "Example '{} is not valid.\nList of available example names:\n{}".format(e, '\n'.join(list(gengine_examples.keys())))
     
     dataframe = dict()
 
