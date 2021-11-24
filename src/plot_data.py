@@ -5,31 +5,37 @@ import itertools
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+import seaborn as sns
 
-def plot_df(ponyge_df, gengine_df, example, col_name, mode):
-    ponyge_vals = ponyge_df[col_name].values
-    gengine_vals = gengine_df[col_name].values
-
-    fig = plt.figure()
-    ax = fig.add_subplot(1, 1, 1)
-    ax.violinplot([ponyge_vals, gengine_vals])
+def plot_df(ponyge_df, gengine_df, plot_info):
+    
+    ponyge_vals = ponyge_df[plot_info['column']].values
+    gengy_vals = gengine_df[plot_info['column']].values
+  
+    ax = sns.violinplot(data=[ponyge_vals, gengy_vals])
+    ax = sns.swarmplot(data=[ponyge_vals, gengy_vals], color=".25")
+    
     tix = ['PonyGE', 'GeneticEngine']
-    plt.xticks([1,2], tix, rotation=0, fontsize=12)
-    if mode == 'generations':
-        plt.title(f"{col_name.capitalize()} time per Tool")
+    
+    plt.xticks([0,1], tix, rotation=0, fontsize=12)
+    plt.title(plot_info['title'])
+    
+    if plot_info['mode'] == 'generations':
         ax.set_ylabel("Time (s)", fontsize=12)
     else:
-        plt.title(f'Best fitness after time limit per tool')
         ax.set_ylabel("Fitness", fontsize=12)
+    
     ax.set_xlabel('Tools', fontsize=12)
 
     ax.set_ylim(ymin=0)
-    plt.savefig(f"plots/{example}_{col_name}_{mode}.pdf")
+    
+    plt.savefig(f"plots/{plot_info['example']}_{plot_info['column']}_{plot_info['mode']}.pdf")
     plt.close()
 
 
 if __name__ == '__main__':
-    
+    sns.set_theme(style="whitegrid")
+
     examples = sys.argv[1:]
 
     # Obtain the generation files to make the plots
@@ -41,11 +47,20 @@ if __name__ == '__main__':
     gengy_timer = helper.import_data(examples, 'results/gengine/', 'timer', ',')
     helper.create_folder("plots/")
 
+    plot_info = {'title': '',
+        'mode': '',
+        'column': '',
+        'example': '',
+    }
 
     # #########################################################################
     # Generate the gens plot files
     for example in examples:
-    
+
+        # Update the plot informations    
+        plot_info['mode'] = 'generations'
+        plot_info['example'] = example 
+
         if not example in ponyge_gens or example in gengy_gens:
             pass
         
@@ -61,13 +76,31 @@ if __name__ == '__main__':
         ponyge_df['total'] = ponyge_df['processing_time'] + ponyge_df['evolution_time']
         gengine_df['total'] = gengine_df['processing_time'] + gengine_df['evolution_time']
 
-        plot_df(ponyge_df, gengine_df, example, 'processing_time', 'generations')
-        plot_df(ponyge_df, gengine_df, example, 'evolution_time', 'generations')
-        plot_df(ponyge_df, gengine_df, example, 'total', 'generations')
+        # Plot the Processing Time
+        plot_info['title'] = 'Processing Time per Tool'
+        plot_info['column'] = 'processing_time'
+        plot_df(ponyge_df, gengine_df, plot_info)
+
+        # Plot the Evolution time
+        plot_info['title'] = 'Evolution Time per Tool'
+        plot_info['column'] = 'evolution_time'
+        plot_df(ponyge_df, gengine_df, plot_info)
+        
+        # Plot the Total time
+        plot_info['title'] = 'Total Time per Tool'
+        plot_info['column'] = 'total'
+        plot_df(ponyge_df, gengine_df, plot_info)
+
 
     # #########################################################################
     # Generate the timer plot files
     for example in examples:
+
+        # Update the plot informations    
+        plot_info['mode'] = 'timer'
+        plot_info['example'] = example 
+        plot_info['title'] = 'Best fitness per tool after time threshold'
+        plot_info['column'] = 'best_fitness'
 
         if not example in ponyge_timer or example in gengy_timer:
             pass
@@ -75,12 +108,5 @@ if __name__ == '__main__':
         ponyge_df = ponyge_timer[example]
         gengine_df = gengy_timer[example]
 
-        cols = ['best_fitness']
-
-        # Convert from ns to s
-        for df, column in itertools.product([ponyge_df, gengine_df], cols):
-            df[column] = df[column].apply(lambda x: x * pow(10, -9))
-        
-        plot_df(ponyge_df, gengine_df, example, 'best_fitness', 'timer')
-        plot_df(ponyge_df, gengine_df, example, 'best_fitness', 'timer')
+        plot_df(ponyge_df, gengine_df, plot_info)
         

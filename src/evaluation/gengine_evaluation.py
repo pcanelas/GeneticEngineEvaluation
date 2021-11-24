@@ -1,3 +1,4 @@
+import os
 import sys
 import logging
 import multiprocessing as mp
@@ -45,6 +46,8 @@ def execute_evaluation(preprocess_method, evol_method, seed, mode, queue):
 
 # Function to evaluate the GeneticEngine
 def evaluate_geneticengine(examples: list, mode):
+
+    os.chdir('GeneticEngine/')
     
     dataframe = dict()
 
@@ -69,10 +72,10 @@ def evaluate_geneticengine(examples: list, mode):
         output_list = list()
         
         # Run 30 times with 30 different seeds
-        for seed in range(30):
+        for seed in range(1):
             queue = mp.Queue()
 
-            process = mp.Process(target=execute_evaluation, 
+            process = mp.Process(target=execute_evaluation,
                                     args=(preprocess_method, 
                                         evol_method,
                                         seed,
@@ -89,4 +92,5 @@ def evaluate_geneticengine(examples: list, mode):
         
         dataframe[name] = pd.DataFrame(output_list, columns=cols)
     
+    os.chdir('..')
     helper.write_to_csv_times(dataframe, mode)
