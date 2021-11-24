@@ -23,7 +23,7 @@ def plot_df(ponyge_df, gengine_df, plot_info):
     if plot_info['mode'] == 'generations':
         ax.set_ylabel("Time (s)", fontsize=12)
     else:
-        ax.set_ylabel("Fitness", fontsize=12)
+        ax.set_ylabel("Fitness (mae)", fontsize=12)
     
     ax.set_xlabel('Tools', fontsize=12)
 
@@ -99,7 +99,7 @@ if __name__ == '__main__':
         # Update the plot informations    
         plot_info['mode'] = 'timer'
         plot_info['example'] = example 
-        plot_info['title'] = 'Best fitness per tool after time threshold'
+        plot_info['title'] = 'Best fitness per Tool after time threshold'
         plot_info['column'] = 'best_fitness'
 
         if not example in ponyge_timer or example in gengy_timer:

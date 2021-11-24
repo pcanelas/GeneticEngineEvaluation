@@ -19,11 +19,13 @@ ponyge_examples = {
     'seed_run_target': 'parameters/seed_run_target.txt',
     'GE_parse': 'parameters/GE_parse.txt',
     'game_of_life': 'parameters/game_of_life.txt',
+    
     # Progsys
     'number_io': 'parameters/number_io.txt',
     'median': None,
     'smallest': None,
     'sum_of_squares': None,
+    'vectorial': 'parameters/vectorialgp.txt',
 }
 
 def execute_tests(name, parameter_path, mode):
