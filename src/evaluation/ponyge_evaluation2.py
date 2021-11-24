@@ -13,10 +13,12 @@ ponyge_examples = {
     'pymax': 'parameters/pymax.txt',
     'vectorial': None, # TODO: Not implemented
     'regression': 'parameters/regression.txt',
+    'classification': 'parameters/classification.txt',
     'santafe': None, # TODO: Not implemented
     'string_match': 'parameters/string_match.txt',
     'seed_run_target': 'parameters/seed_run_target.txt',
     'GE_parse': 'parameters/GE_parse.txt',
+    'game_of_life': 'parameters/game_of_life.txt',
     # Progsys
     'number_io': 'parameters/number_io.txt',
     'median': None,
@@ -44,7 +46,9 @@ def execute_tests(name, parameter_path, mode):
 
 # Function to evaluate PonyGE
 def evaluate_ponyge2(examples, mode):
-        
+    for e in examples:
+        assert e in ponyge_examples.keys(), "Example '{} is not valid.\nList of available example names:\n{}".format(e, '\n'.join(list(ponyge_examples.keys())))
+    
     if len(examples) > 0:
         run_examples = dict([(name, function) for name, function in ponyge_examples.items() if name in examples and function != None])
 

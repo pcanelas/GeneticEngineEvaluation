@@ -1,3 +1,4 @@
+#!/bin/bash
 git clone git@github.com:alcides/GeneticEngine.git
 git clone git@github.com:alcides/PonyGE2.git
 cd GeneticEngine 
