@@ -19,10 +19,10 @@ ponyge_examples = {
     
     # Progsys
     'number_io': 'parameters/number_io.txt',
-    'smallest': 'examples/smallest.txt',
-    'median': 'examples/median.txt',
-    'sum_of_squares': 'examples/sum_of_squares.txt',
-    'vector_average': 'examples/vector_average.txt',
+    'smallest': 'parameters/smallest.txt',
+    'median': 'parameters/median.txt',
+    'sum_of_squares': 'parameters/sum_of_squares.txt',
+    'vector_average': 'parameters/vector_average.txt',
 }
 
 def execute_tests(name, parameter_path, mode):
