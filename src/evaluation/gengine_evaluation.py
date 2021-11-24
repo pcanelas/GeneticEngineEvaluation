@@ -11,18 +11,20 @@ GENETICENGINE_PATH = 'GeneticEngine/'
 
 gengine_examples = {
     # Examples
+    # 'santafe': 'examples/santafe.py',
     'pymax': 'examples/pymax.py',
-    'santafe': 'examples/santafe.py',
-    'regression': 'examples/regression.py',
-    'vectorial': 'examples/vectorialgp_example.py',
-    'string_match': 'examples/string_match.py',
     'game_of_life': 'examples/game_of_life.py',
-
+    'regression': 'examples/regression.py',
+    'classification': 'examples/classification.py',
+    'string_match': 'examples/string_match.py',
+    'vectorial': 'examples/vectorialgp_example.py',
+    
     # Progsys
-    'median': 'examples/progsys/Median.py',
-    'smallest': 'examples/progsys/Smallest.py',
     'number_io': 'examples/progsys/Number_IO.py',
+    'smallest': 'examples/progsys/Smallest.py',
+    'median': 'examples/progsys/Median.py',
     'sum_of_squares': 'examples/progsys/Sum_of_Squares.py',
+    'vector_average': 'examples/progsys/Vector_Average.py',
 }
 
 def execute_evaluation(preprocess_method, evol_method, seed, mode, queue):

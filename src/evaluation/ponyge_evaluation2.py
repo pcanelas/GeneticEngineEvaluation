@@ -11,21 +11,18 @@ PONYGE_PATH = 'PonyGE2/'
 ponyge_examples = {
     # Examples
     'pymax': 'parameters/pymax.txt',
-    'vectorial': None, # TODO: Not implemented
+    'game_of_life': 'parameters/game_of_life.txt',
     'regression': 'parameters/regression.txt',
     'classification': 'parameters/classification.txt',
-    'santafe': None, # TODO: Not implemented
     'string_match': 'parameters/string_match.txt',
-    'seed_run_target': 'parameters/seed_run_target.txt',
-    'GE_parse': 'parameters/GE_parse.txt',
-    'game_of_life': 'parameters/game_of_life.txt',
+    'vectorial': 'parameters/vectorialgp.txt',
     
     # Progsys
     'number_io': 'parameters/number_io.txt',
-    'median': None,
-    'smallest': None,
-    'sum_of_squares': None,
-    'vectorial': 'parameters/vectorialgp.txt',
+    'smallest': 'examples/smallest.txt',
+    'median': 'examples/median.txt',
+    'sum_of_squares': 'examples/sum_of_squares.txt',
+    'vector_average': 'examples/vector_average.txt',
 }
 
 def execute_tests(name, parameter_path, mode):
