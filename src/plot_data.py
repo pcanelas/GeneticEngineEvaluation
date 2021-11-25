@@ -18,7 +18,7 @@ def plot_df(ponyge_df, gengine_df, plot_info):
     tix = ['PonyGE', 'GeneticEngine']
     
     plt.xticks([0,1], tix, rotation=0, fontsize=12)
-    plt.title(plot_info['title'])
+    plt.title(plot_info['example'])
     
     if plot_info['mode'] == 'generations':
         ax.set_ylabel("Time (s)", fontsize=12)
@@ -61,8 +61,8 @@ if __name__ == '__main__':
         plot_info['mode'] = 'generations'
         plot_info['example'] = example 
 
-        if not example in ponyge_gens or example in gengy_gens:
-            pass
+        if not example in ponyge_gens or not example in gengy_gens:
+            continue
         
         ponyge_df = ponyge_gens[example]
         gengine_df = gengy_gens[example]
@@ -102,8 +102,8 @@ if __name__ == '__main__':
         plot_info['title'] = 'Best fitness per Tool after time threshold'
         plot_info['column'] = 'best_fitness'
 
-        if not example in ponyge_timer or example in gengy_timer:
-            pass
+        if not example in ponyge_timer or not example in gengy_timer:
+            continue
         
         ponyge_df = ponyge_timer[example]
         gengine_df = gengy_timer[example]

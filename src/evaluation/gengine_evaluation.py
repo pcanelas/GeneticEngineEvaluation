@@ -13,17 +13,17 @@ gengine_examples = {
     # Examples
     # 'santafe': 'examples/santafe.py',
     'pymax': 'examples/pymax.py',
-    'game_of_life': 'examples/game_of_life.py',
-    'regression': 'examples/regression.py',
-    'classification': 'examples/classification.py',
-    'string_match': 'examples/string_match.py',
-    'vectorial': 'examples/vectorialgp_example.py',
+    #'game_of_life': 'examples/game_of_life.py',
+    #'regression': 'examples/regression.py',
+    #'classification': 'examples/classification.py',
+    #'string_match': 'examples/string_match.py',
+    #'vectorial': 'examples/vectorialgp_example.py',
     
     # Progsys
-    'number_io': 'examples/progsys/Number_IO.py',
-    'smallest': 'examples/progsys/Smallest.py',
-    'median': 'examples/progsys/Median.py',
-    'sum_of_squares': 'examples/progsys/Sum_of_Squares.py',
+    #'number_io': 'examples/progsys/Number_IO.py',
+    #'smallest': 'examples/progsys/Smallest.py',
+    #'median': 'examples/progsys/Median.py',
+    #'sum_of_squares': 'examples/progsys/Sum_of_Squares.py',
     'vector_average': 'examples/progsys/Vector_Average.py',
 }
 

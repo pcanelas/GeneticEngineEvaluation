@@ -1,0 +1,111 @@
+import sys
+import src.evaluation.helper as helper
+
+import itertools
+import numpy as np
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
+
+def plot_df(merged_dataframe, plot_info):
+    
+    ax = sns.boxplot(data=merged_dataframe)
+    print(merged_dataframe.columns)
+    tix = ['classification', 'game_of_life', 'median', 'number_io', 'regression', 'smallest', 'string_match', 'sum_of_squares', 'vectorial']
+    tix = "abcdefghi"
+    plt.xticks([0.5, 2.5, 4.5, 6.5, 8.5, 10.5, 12.5, 14.5, 16.5], tix, rotation=45, fontsize=8)
+    plt.title("Titulo temporario")
+    
+    ax.set_ylabel("Relative performance", fontsize=12)
+    #ax.set_xlabel('Tools', fontsize=12)
+
+    ax.set_ylim(ymin=0)
+    
+    plt.axvline(1.5, ls="--")
+    plt.tight_layout()
+    plt.savefig(f"merged_plots.pdf")
+    plt.close()
+
+
+
+
+
+if __name__ == '__main__':
+    sns.set_theme(style="whitegrid")
+
+    examples = sys.argv[1:]
+
+    # Obtain the generation files to make the plots
+    ponyge_gens = helper.import_data(examples, 'results/ponyge/', 'generations', ',')
+    gengy_gens = helper.import_data(examples, 'results/gengine/', 'generations', ',')
+
+    # Obtain the timer files to make the plots
+    ponyge_timer = helper.import_data(examples, 'results/ponyge/', 'timer', ',')
+    gengy_timer = helper.import_data(examples, 'results/gengine/', 'timer', ',')
+    helper.create_folder("plots/")
+
+    plot_info = {'title': '',
+        'mode': '',
+        'column': '',
+        'example': '',
+    }
+
+    # #########################################################################
+    # Create the total performance column
+    for example in examples:
+        if not example in ponyge_gens or not example in gengy_gens:
+            continue
+        
+        ponyge_df = ponyge_gens[example]
+        gengine_df = gengy_gens[example]
+
+        cols = ['processing_time', 'evolution_time']
+
+        # Convert from ns to s
+        for df, column in itertools.product([ponyge_df, gengine_df], cols):
+            df[column] = df[column].apply(lambda x: x * pow(10, -9))
+        
+        ponyge_df['total'] = ponyge_df['processing_time'] + ponyge_df['evolution_time']
+        gengine_df['total'] = gengine_df['processing_time'] + gengine_df['evolution_time']
+    
+    
+    # #########################################################################
+    # Merge all the dataframes into a single dataframe
+    cols = list() 
+    rows = [[] for _ in range(30)]
+
+    for column, example in enumerate(examples):
+        if not example in ponyge_gens or not example in gengy_gens:
+            continue
+        
+        ponyge_df = ponyge_gens[example]
+        gengine_df = gengy_gens[example]
+
+        cols.append(f'{example}_ponyge')
+        cols.append(f'{example}_gengine')
+
+        ponyge_rows = list(ponyge_df['total'].values)
+        gengine_rows = list(gengine_df['total'].values) 
+        
+        for i, val in enumerate(ponyge_rows):
+            rows[i].append(val)
+
+        for i, val in enumerate(gengine_rows):
+            rows[i].append(val)
+
+    merged_dataframe =  pd.DataFrame(data=rows, columns=cols)
+    
+    # Calculate the average
+    print(merged_dataframe)
+
+    # Apply the average to each point
+    for col in merged_dataframe.columns:
+        if 'ponyge' in col:
+            merged_dataframe[col] = merged_dataframe[col] / merged_dataframe[col].mean()
+            print(col)
+        else:
+            print(col.replace('ponyge', 'gengine'))
+            merged_dataframe[col] = merged_dataframe[col] / merged_dataframe[col.replace('ponyge', 'gengine')].mean()
+        
+    # Apply the average to each line
+    plot_df(merged_dataframe, plot_info)
