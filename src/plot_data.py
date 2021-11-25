@@ -13,7 +13,7 @@ def plot_df(ponyge_df, gengine_df, plot_info):
     gengy_vals = gengine_df[plot_info['column']].values
   
     ax = sns.violinplot(data=[ponyge_vals, gengy_vals])
-    ax = sns.swarmplot(data=[ponyge_vals, gengy_vals], color=".25")
+    #ax = sns.swarmplot(data=[ponyge_vals, gengy_vals], color=".25")
     
     tix = ['PonyGE', 'GeneticEngine']
     

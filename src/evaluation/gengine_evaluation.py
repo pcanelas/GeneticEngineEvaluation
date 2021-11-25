@@ -79,6 +79,7 @@ def evaluate_geneticengine(examples: list, mode):
         
         # Run 30 times with 30 different seeds
         for seed in range(30):
+            print("Run:", seed)
             queue = mp.Queue()
 
             process = mp.Process(target=execute_evaluation,
