@@ -95,14 +95,14 @@ if __name__ == '__main__':
     # Calculate the average
     print(merged_dataframe)
 
-    merged_dataframe['Relative Performance'] = merged_dataframe.apply(lambda x: x['Time'] / merged_dataframe[merged_dataframe['Tool'].str.contains('PonyGE2') | merged_dataframe['Benchmark'].str.contains(x['Benchmark'])].mean(), axis=1)
+    merged_dataframe['Relative Time'] = merged_dataframe.apply(lambda x: x['Time'] / merged_dataframe[merged_dataframe['Tool'].str.contains('PonyGE2') & merged_dataframe['Benchmark'].str.contains(x['Benchmark'])].mean(), axis=1)
 
-    axis = sns.barplot(data=merged_dataframe, x='Benchmark', y='Relative Performance', hue='Tool')
+    axis = sns.barplot(data=merged_dataframe, x='Benchmark', y='Relative Time', hue='Tool')
 
     for item in axis.get_xticklabels():
         item.set_rotation(25)
 
-    plt.title("Relative Performance of PonyGE2 and GeneticEngine")
+    plt.title("Relative Time of PonyGE2 and GeneticEngine")
     plt.tight_layout()
     plt.savefig(f"merged_plots.pdf")
     plt.close()
