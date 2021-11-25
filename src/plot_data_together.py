@@ -10,9 +10,9 @@ import seaborn as sns
 def plot_df(merged_dataframe, plot_info):
     
     ax = sns.boxplot(data=merged_dataframe)
-    print(merged_dataframe.columns)
+    
     tix = ['classification', 'game_of_life', 'median', 'number_io', 'regression', 'smallest', 'string_match', 'sum_of_squares', 'vectorial']
-    tix = "abcdefghi"
+    #tix = "abcdefghi"
     plt.xticks([0.5, 2.5, 4.5, 6.5, 8.5, 10.5, 12.5, 14.5, 16.5], tix, rotation=45, fontsize=8)
     plt.title("Titulo temporario")
     
@@ -71,8 +71,8 @@ if __name__ == '__main__':
     
     # #########################################################################
     # Merge all the dataframes into a single dataframe
-    cols = list() 
-    rows = [[] for _ in range(30)]
+    cols = ['Tool', 'Example', 'Time']
+    rows = []
 
     for column, example in enumerate(examples):
         if not example in ponyge_gens or not example in gengy_gens:
@@ -81,31 +81,18 @@ if __name__ == '__main__':
         ponyge_df = ponyge_gens[example]
         gengine_df = gengy_gens[example]
 
-        cols.append(f'{example}_ponyge')
-        cols.append(f'{example}_gengine')
-
         ponyge_rows = list(ponyge_df['total'].values)
         gengine_rows = list(gengine_df['total'].values) 
         
-        for i, val in enumerate(ponyge_rows):
-            rows[i].append(val)
-
-        for i, val in enumerate(gengine_rows):
-            rows[i].append(val)
-
+        for val in ponyge_rows:
+            rows.append(['PonyGE', example, val])
+        
+        for val in gengine_rows:
+            rows.append(['GEngine', example, val])
+        
+        
     merged_dataframe =  pd.DataFrame(data=rows, columns=cols)
     
     # Calculate the average
     print(merged_dataframe)
-
-    # Apply the average to each point
-    for col in merged_dataframe.columns:
-        if 'ponyge' in col:
-            merged_dataframe[col] = merged_dataframe[col] / merged_dataframe[col].mean()
-            print(col)
-        else:
-            print(col.replace('ponyge', 'gengine'))
-            merged_dataframe[col] = merged_dataframe[col] / merged_dataframe[col.replace('ponyge', 'gengine')].mean()
-        
-    # Apply the average to each line
-    plot_df(merged_dataframe, plot_info)
+    
