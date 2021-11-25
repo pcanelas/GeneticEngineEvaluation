@@ -71,7 +71,7 @@ if __name__ == '__main__':
     
     # #########################################################################
     # Merge all the dataframes into a single dataframe
-    cols = ['Tool', 'Example', 'Time']
+    cols = ['Tool', 'Benchmark', 'Time']
     rows = []
 
     for column, example in enumerate(examples):
@@ -85,14 +85,25 @@ if __name__ == '__main__':
         gengine_rows = list(gengine_df['total'].values) 
         
         for val in ponyge_rows:
-            rows.append(['PonyGE', example, val])
+            rows.append(['PonyGE2', example, val])
         
         for val in gengine_rows:
             rows.append(['GEngine', example, val])
-        
         
     merged_dataframe =  pd.DataFrame(data=rows, columns=cols)
     
     # Calculate the average
     print(merged_dataframe)
-    
+
+    merged_dataframe['Relative Performance'] = merged_dataframe.apply(lambda x: x['Time'] / merged_dataframe[merged_dataframe['Tool'].str.contains('PonyGE2') | merged_dataframe['Benchmark'].str.contains(x['Benchmark'])].mean(), axis=1)
+
+    axis = sns.barplot(data=merged_dataframe, x='Benchmark', y='Relative Performance', hue='Tool')
+
+    for item in axis.get_xticklabels():
+        item.set_rotation(25)
+
+    plt.title("Relative Performance of PonyGE2 and GeneticEngine")
+    plt.tight_layout()
+    plt.savefig(f"merged_plots.pdf")
+    plt.close()
+
