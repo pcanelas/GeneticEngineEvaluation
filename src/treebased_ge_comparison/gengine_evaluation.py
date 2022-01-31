@@ -28,7 +28,7 @@ gengine_examples = {
 def execute_evaluation(preprocess_method, evol_method, seed, mode, representation, queue):
 
     algorithm = preprocess_method()
-    output_folder = 'results/treebased_ge_comparison/' + representation + '/'
+    output_folder = f'results/treebased_ge_comparison/{representation}/'
     helper.create_folder(output_folder)
 
     # Check the evolution time
