@@ -7,4 +7,4 @@ export PYTHONPATH="${PYTHONPATH:+${PYTHONPATH}:}./GeneticEngine"
 #    exit 1
 #fi
 
-python3.9 -m src.evaluation $*
+python3.9 -m src.ponyge_comparison $*

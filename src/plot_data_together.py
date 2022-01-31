@@ -1,5 +1,5 @@
 import sys
-import src.evaluation.helper as helper
+import src.ponyge_comparison.helper as helper
 
 import itertools
 import numpy as np
