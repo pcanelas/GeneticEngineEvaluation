@@ -36,7 +36,7 @@ def execute_evaluation(preprocess_method, evol_method, seed, mode, queue):
 
     # Check the evolution time
     evolution_time = perf_counter_ns()
-    best_individual, best_fitness = evol_method(algorithm, seed, mode == 'timer')
+    best_individual, best_fitness = evol_method(algorithm, seed, mode == 'timer', representation = 'treebased_representation')
     evolution_time = perf_counter_ns() - evolution_time
 
     if mode == 'timer':
