@@ -41,7 +41,7 @@ def execute_tests(name, parameter_path, mode):
                             '--random_seed', str(seed),
                             '--search_loop', search_mode])
     
-    shutil.rmtree(f'results/ponyge/{name}')
+    shutil.rmtree(f'results/ponyge_comparison/ponyge/{name}')
 
 # Function to evaluate PonyGE
 def evaluate_ponyge2(examples, mode):
@@ -54,14 +54,14 @@ def evaluate_ponyge2(examples, mode):
     else:
         run_examples = ponyge_examples
 
-    helper.create_folder('results/ponyge/')
+    helper.create_folder('results/ponyge_comparison/ponyge/')
 
     for name, parameter_path in run_examples.items():        
         
         logging.info(f"PonyGE: Executing the example: {name}")
     
         # Write the header of the times file
-        f = open(f"results/ponyge/{name}_{mode}.csv", "w")
+        f = open(f"results/ponyge_comparison/ponyge/{name}_{mode}.csv", "w")
     
         if mode == 'generations':
             f.write("processing_time,evolution_time")

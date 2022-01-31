@@ -29,12 +29,12 @@ def import_data(examples, path, mode, delimiter):
     return res
 
 def write_to_csv_times(times, mode):
-    path = 'results/gengine/'
+    path = 'results/ponyge_comparison/gengine/'
     create_folder(path)
 
     for name, dataframe in times.items():
 
-        f = open(f"results/gengine/{name}_{mode}.csv", "w")
+        f = open(f"results/ponyge_comparison/gengine/{name}_{mode}.csv", "w")
 
         if mode == 'generations':
             f.write("processing_time,evolution_time")
