@@ -71,6 +71,7 @@ def evaluate_geneticengine(examples: list, mode):
             queue = mp.Queue()
 
             for representation in representations:
+                print(f"Representation: {representation}.")
                 process = mp.Process(target=execute_evaluation,
                                         args=(preprocess_method, 
                                             evol_method,
