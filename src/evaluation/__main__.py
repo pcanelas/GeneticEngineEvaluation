@@ -19,9 +19,9 @@ if __name__ == '__main__':
     
     # --mode=generations or --mode=timer
     if len(sys.argv) < 2 or '--mode=' not in sys.argv[1]:
-        raise Exception('The --mode=generations or --mode=timer should be included after ./run_evaluation.sh')
+        raise Exception('The --mode=generations or --mode=timer should be included after ./run_ponyge_comparison.sh')
     mode = sys.argv[1].split('=')[1]
 
     #evaluate_ponyge(examples)
-    evaluate_ponyge2(examples, mode)
     evaluate_geneticengine(examples, mode)
+    evaluate_ponyge2(examples, mode)

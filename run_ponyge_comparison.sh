@@ -1,3 +1,4 @@
+export PYTHONPATH="${PYTHONPATH:+${PYTHONPATH}:}./GeneticEngine"
 #!/bin/bash
 #version=$(python -V 2>&1 | sed 's/.* \([0-9]\).\([0-9]\).*/\1\2/')
 
