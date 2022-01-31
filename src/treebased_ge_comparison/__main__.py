@@ -4,7 +4,7 @@ import logging
 sys.path.append('GeneticEngine/')
 
 
-from src.ponyge_comparison.gengine_evaluation import evaluate_geneticengine
+from src.treebased_ge_comparison.gengine_evaluation import evaluate_geneticengine
 
 if __name__ == '__main__':
     logging.getLogger().setLevel(logging.INFO)
