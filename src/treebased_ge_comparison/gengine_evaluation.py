@@ -1,9 +1,7 @@
 import os
-import sys
 import logging
 import multiprocessing as mp
 from time import perf_counter_ns, process_time
-import pandas as pd
 import src.helper as helper
 
 # Configuration variables
@@ -30,7 +28,7 @@ gengine_examples = {
 def execute_evaluation(preprocess_method, evol_method, seed, mode, representation, queue):
 
     algorithm = preprocess_method()
-    output_folder = f'results/treebased_ge_comparison/{representation}/'
+    output_folder = 'results/treebased_ge_comparison/' + representation + '/'
     helper.create_folder(output_folder)
 
     # Check the evolution time
