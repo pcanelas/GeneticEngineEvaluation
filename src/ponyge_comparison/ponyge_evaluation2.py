@@ -3,7 +3,7 @@ import logging
 import os 
 import shutil
 
-import src.ponyge_comparison.helper as helper
+import src.helper as helper
 
 # Configuration variables
 PONYGE_PATH = 'PonyGE2/'

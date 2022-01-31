@@ -4,7 +4,7 @@ import logging
 import multiprocessing as mp
 from time import perf_counter_ns, process_time
 import pandas as pd
-import src.ponyge_comparison.helper as helper
+import src.helper as helper
 
 # Configuration variables
 GENETICENGINE_PATH = 'GeneticEngine/'
@@ -100,4 +100,5 @@ def evaluate_geneticengine(examples: list, mode):
         dataframe[name] = pd.DataFrame(output_list, columns=cols)
     
     os.chdir('..')
-    helper.write_to_csv_times(dataframe, mode)
+    path = 'results/ponyge_comparison/gengine/'
+    helper.write_to_csv_times(dataframe, mode, path)
