@@ -17,7 +17,7 @@ if __name__ == '__main__':
         
     examples = list()
     folder_addition = ''
-    if len(sys.argv) > 1:
+    if len(sys.argv) > 2:
         if '--folder_addition=' in sys.argv[2]:
             folder_addition = sys.argv[2].split('=')[1]
             if len(sys.argv) > 2:
