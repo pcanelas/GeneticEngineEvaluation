@@ -42,11 +42,11 @@ if __name__ == '__main__':
     examples = sys.argv[1:]
 
     # Obtain the generation files to make the plots
-    ponyge_gens = helper.import_data(examples, 'results/ponyge_comparison/ponyge/', 'generations', ',')
+    ponyge_gens = helper.import_data(examples, 'results/ponyge/', 'generations', ',')
     gengy_gens = helper.import_data(examples, 'results/ponyge_comparison/gengine/', 'generations', ',')
 
     # Obtain the timer files to make the plots
-    ponyge_timer = helper.import_data(examples, 'results/ponyge_comparison/ponyge/', 'timer', ',')
+    ponyge_timer = helper.import_data(examples, 'results/ponyge/', 'timer', ',')
     gengy_timer = helper.import_data(examples, 'results/ponyge_comparison/gengine/', 'timer', ',')
     helper.create_folder("plots/")
 
