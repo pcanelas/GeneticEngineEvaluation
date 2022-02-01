@@ -5,6 +5,8 @@ import itertools
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+plt.rcParams['pdf.fonttype'] = 42
+plt.rcParams['ps.fonttype'] = 42
 import seaborn as sns
 
 def plot_df(ponyge_df, gengine_df, plot_info):
