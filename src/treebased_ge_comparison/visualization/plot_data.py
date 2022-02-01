@@ -5,7 +5,7 @@ import src.helper as helper
 
 # Configuration variables
 GENETICENGINE_PATH = 'GeneticEngine/'
-RESULTS_PATH = './results/treebased_ge_comparison'
+RESULTS_PATH = './treebased_ge_comparison'
 
 def execute_plot(plot_method, file_run_names, run_names, result_name='results/images/medians.pdf', metric='fitness', single_value=False):
 
@@ -18,7 +18,7 @@ def execute_plots(example, file_addition=''):
 
     os.chdir('GeneticEngine/')
     representations = ['treebased_representation','grammatical_evolution']
-    folders = [ GENETICENGINE_PATH + RESULTS_PATH + '/' + example + '/' + r for r in representations ]
+    folders = [ RESULTS_PATH + '/' + example + '/' + r for r in representations ]
     output_folder = './results/images/treebased_ge_comparison/'
     helper.create_folder(output_folder)
     
