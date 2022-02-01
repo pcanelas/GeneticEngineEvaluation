@@ -6,7 +6,7 @@ import shutil
 
 # Configuration variables
 GENETICENGINE_PATH = 'GeneticEngine/'
-RESULTS_PATH = './results/treebased_ge_comparison/'
+RESULTS_PATH = './results/treebased_ge_comparison'
 
 gengine_examples = {
     # Examples
@@ -26,18 +26,18 @@ gengine_examples = {
     # 'vector_average': 'examples/progsys/Vector_Average.py',
 }
 
-def execute_evaluation(preprocess_method, evol_method, seed, mode, representation, name):
+def execute_evaluation(preprocess_method, evol_method, seed, mode, representation, name, folder_addition):
 
     algorithm = preprocess_method()
-    output_folder = f'{RESULTS_PATH}/{name}/{representation}/'
+    output_folder = f'{RESULTS_PATH}{folder_addition}/{name}/{representation}/'
     helper.create_folder(output_folder)
 
     # Check the evolution time
-    evol_method(algorithm, seed, mode == 'timer', representation = representation, output_folder=(f'{output_folder}/run_seed={seed}','all'))
+    evol_method(algorithm, seed, mode == 'timer', representation, output_folder=(f'{output_folder}/run_seed={seed}','all'))
     
 
 # Function to evaluate the GeneticEngine
-def evaluate_geneticengine(examples: list, mode):
+def evaluate_geneticengine(examples: list, mode, folder_addition=''):
 
     os.chdir('GeneticEngine/')
     representations = ['treebased_representation','grammatical_evolution']
@@ -61,9 +61,6 @@ def evaluate_geneticengine(examples: list, mode):
         preprocess_method = helper.get_eval_method(filepath, 'preprocess') 
         evol_method = helper.get_eval_method(filepath, 'evolve')
         
-        # Accumulate the results
-        output_list = list()
-        
         # Run 30 times with 30 different seeds
         for seed in range(30):
             print("Run:", seed)
@@ -77,17 +74,18 @@ def evaluate_geneticengine(examples: list, mode):
                                             seed,
                                             mode,
                                             representation,
-                                            name))
+                                            name,
+                                            folder_addition))
                 process.start()
                 process.join()
-        copy_from_gengy_to_evaluation_folder(name,f'results/')
+        copy_from_gengy_to_evaluation_folder(name,f'results/',folder_addition)
 
-def copy_from_gengy_to_evaluation_folder(gengy_folder,evaluation_folder):
-    '''gengy folder within gets GeneticEngine/results/treebased_ge_comparison'''
-    helper.create_folder(evaluation_folder)
+def copy_from_gengy_to_evaluation_folder(gengy_folder,evaluation_folder, folder_addition=''):
+    '''gengy folder within gets GeneticEngine/results/treebased_ge_comparison[folder_addition]'''
+    helper.create_folder(evaluation_folder + folder_addition)
     
-    gengy_folder = GENETICENGINE_PATH + RESULTS_PATH + gengy_folder
-    shutil.move(gengy_folder,evaluation_folder)
+    gengy_folder = GENETICENGINE_PATH + RESULTS_PATH + folder_addition + '/' + gengy_folder
+    shutil.move(gengy_folder,evaluation_folder + folder_addition)
 
     
 
