@@ -25,7 +25,5 @@ if __name__ == '__main__':
         else:
             examples = sys.argv[2:]
             
-    print(examples, folder_addition)
-    print(sys.args)
     #evaluate_ponyge(examples)
-    # evaluate_geneticengine(examples, mode, folder_addition)
+    evaluate_geneticengine(examples, mode, folder_addition)
