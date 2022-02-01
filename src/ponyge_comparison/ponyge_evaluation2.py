@@ -10,7 +10,7 @@ PONYGE_PATH = 'PonyGE2/'
 
 ponyge_examples = {
     # Examples
-    'pymax': 'parameters/pymax.txt',
+    # 'pymax': 'parameters/pymax.txt',
     'game_of_life': 'parameters/game_of_life.txt',
     'regression': 'parameters/regression.txt',
     'classification': 'parameters/classification.txt',
@@ -18,11 +18,11 @@ ponyge_examples = {
     'vectorial': 'parameters/vectorialgp.txt',
     
     # Progsys
-    'number_io': 'parameters/number_io.txt',
-    'smallest': 'parameters/smallest.txt',
-    'median': 'parameters/median.txt',
-    'sum_of_squares': 'parameters/sum_of_squares.txt',
-    'vector_average': 'parameters/vector_average.txt',
+    # 'number_io': 'parameters/number_io.txt',
+    # 'smallest': 'parameters/smallest.txt',
+    # 'median': 'parameters/median.txt',
+    # 'sum_of_squares': 'parameters/sum_of_squares.txt',
+    # 'vector_average': 'parameters/vector_average.txt',
 }
 
 def execute_tests(name, parameter_path, mode):
