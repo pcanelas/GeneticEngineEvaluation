@@ -1,11 +1,12 @@
 import os
 import logging
 import multiprocessing as mp
-from time import perf_counter_ns, process_time
 import src.helper as helper
+import shutil
 
 # Configuration variables
 GENETICENGINE_PATH = 'GeneticEngine/'
+RESULTS_PATH = './results/treebased_ge_comparison/'
 
 gengine_examples = {
     # Examples
@@ -28,7 +29,7 @@ gengine_examples = {
 def execute_evaluation(preprocess_method, evol_method, seed, mode, representation, name):
 
     algorithm = preprocess_method()
-    output_folder = f'./results/treebased_ge_comparison/{name}/{representation}/'
+    output_folder = f'{RESULTS_PATH}/{name}/{representation}/'
     helper.create_folder(output_folder)
 
     # Check the evolution time
@@ -79,3 +80,14 @@ def evaluate_geneticengine(examples: list, mode):
                                             name))
                 process.start()
                 process.join()
+        copy_from_gengy_to_evaluation_folder(name,f'results/')
+
+def copy_from_gengy_to_evaluation_folder(gengy_folder,evaluation_folder):
+    '''gengy folder within gets GeneticEngine/results/treebased_ge_comparison'''
+    helper.create_folder(evaluation_folder)
+    
+    gengy_folder = GENETICENGINE_PATH + RESULTS_PATH + gengy_folder
+    shutil.move(gengy_folder,evaluation_folder)
+
+    
+
