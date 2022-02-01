@@ -79,7 +79,7 @@ def evaluate_geneticengine(examples: list, mode, folder_addition=''):
                 process.join()
         
         gengy_folder = GENETICENGINE_PATH + RESULTS_PATH + folder_addition + '/' + name
-        helper.copy_folder(gengy_folder,f'results/',folder_addition)
+        # helper.copy_folder(gengy_folder,f'results/',folder_addition)
 
     
 
