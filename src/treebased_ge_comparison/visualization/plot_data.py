@@ -1,5 +1,6 @@
 import os
 import multiprocessing as mp
+import sys
 import src.helper as helper
 
 # Configuration variables
@@ -13,11 +14,11 @@ def execute_plot(plot_method, file_run_names, run_names, result_name='results/im
     
 
 # Function to evaluate the GeneticEngine
-def evaluate_geneticengine(example, file_addition=''):
+def execute_plots(example, file_addition=''):
 
     os.chdir('GeneticEngine/')
     representations = ['treebased_representation','grammatical_evolution']
-    folders = [ GENETICENGINE_PATH + RESULTS_PATH + '/' + r for r in representations ]
+    folders = [ GENETICENGINE_PATH + RESULTS_PATH + '/' + example + '/' + r for r in representations ]
     output_folder = './results/images/treebased_ge_comparison/'
     helper.create_folder(output_folder)
     
@@ -35,6 +36,14 @@ def evaluate_geneticengine(example, file_addition=''):
     process.start()
     process.join()
     helper.copy_folder(output_folder,f'results/treebased_ge_comparison/images/')
+
+if __name__ == '__main__':
+    examples = sys.argv[1:]
+    
+    for ex in examples:
+        print(f"Plotting {ex}")
+        execute_plots(ex)
+    
 
     
 

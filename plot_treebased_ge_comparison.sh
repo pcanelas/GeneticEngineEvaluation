@@ -1,0 +1,1 @@
+python -m src.treebased_ge_comparison.visualization.plot_data $*
