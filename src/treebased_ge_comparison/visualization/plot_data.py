@@ -5,7 +5,7 @@ import src.helper as helper
 
 # Configuration variables
 GENETICENGINE_PATH = 'GeneticEngine/'
-RESULTS_PATH = './treebased_ge_comparison'
+RESULTS_PATH = 'treebased_ge_comparison'
 
 def execute_plot(plot_method, file_run_names, run_names, result_name='results/images/medians.pdf', metric='fitness', single_value=False):
 
@@ -35,7 +35,7 @@ def execute_plots(example, file_addition=''):
                                   ))
     process.start()
     process.join()
-    helper.copy_folder(output_folder,f'results/treebased_ge_comparison/images/')
+    # helper.copy_folder(output_folder,f'results/treebased_ge_comparison/images/')
 
 if __name__ == '__main__':
     examples = sys.argv[1:]
