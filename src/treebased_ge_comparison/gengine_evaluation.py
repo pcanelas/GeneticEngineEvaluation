@@ -25,10 +25,10 @@ gengine_examples = {
     # 'vector_average': 'examples/progsys/Vector_Average.py',
 }
 
-def execute_evaluation(preprocess_method, evol_method, seed, mode, representation, queue):
+def execute_evaluation(preprocess_method, evol_method, seed, mode, representation, name):
 
     algorithm = preprocess_method()
-    output_folder = f'results/treebased_ge_comparison/{representation}/'
+    output_folder = f'./results/treebased_ge_comparison/{name}/{representation}/'
     helper.create_folder(output_folder)
 
     # Check the evolution time
@@ -76,6 +76,6 @@ def evaluate_geneticengine(examples: list, mode):
                                             seed,
                                             mode,
                                             representation,
-                                            queue))
+                                            name))
                 process.start()
                 process.join()
