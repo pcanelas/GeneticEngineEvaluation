@@ -1,6 +1,7 @@
 from importlib import import_module
 from os import listdir
 from os.path import isfile, join
+import shutil
 import pandas as pd
 import os 
 
@@ -45,4 +46,10 @@ def write_to_csv_times(times, mode, path):
             for index, row in dataframe.iterrows():
                 f.write(f"\n{row.loc['best_fitness']}")
         
-        f.close()        
+        f.close()
+
+
+def copy_folder(gengy_folder,evaluation_folder, folder_addition=''):
+    create_folder(evaluation_folder + folder_addition)
+    
+    shutil.move(gengy_folder,evaluation_folder + folder_addition)

@@ -2,7 +2,6 @@ import os
 import logging
 import multiprocessing as mp
 import src.helper as helper
-import shutil
 
 # Configuration variables
 GENETICENGINE_PATH = 'GeneticEngine/'
@@ -78,14 +77,9 @@ def evaluate_geneticengine(examples: list, mode, folder_addition=''):
                                             folder_addition))
                 process.start()
                 process.join()
-        copy_from_gengy_to_evaluation_folder(name,f'results/',folder_addition)
-
-def copy_from_gengy_to_evaluation_folder(gengy_folder,evaluation_folder, folder_addition=''):
-    '''gengy folder within gets GeneticEngine/results/treebased_ge_comparison[folder_addition]'''
-    helper.create_folder(evaluation_folder + folder_addition)
-    
-    gengy_folder = GENETICENGINE_PATH + RESULTS_PATH + folder_addition + '/' + gengy_folder
-    shutil.move(gengy_folder,evaluation_folder + folder_addition)
+        
+        gengy_folder = GENETICENGINE_PATH + RESULTS_PATH + folder_addition + '/' + name
+        helper.copy_folder(gengy_folder,f'results/',folder_addition)
 
     
 
