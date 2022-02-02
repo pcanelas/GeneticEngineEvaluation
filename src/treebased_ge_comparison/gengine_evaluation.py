@@ -15,7 +15,7 @@ gengine_examples = {
     'regression': 'examples/regression.py',
     'classification': 'examples/classification.py',
     'string_match': 'examples/string_match.py',
-    'vectorial': 'examples/vectorialgp_example.py',
+    'vectorialgp': 'examples/vectorialgp_example.py',
     
     # Progsys
     # 'number_io': 'examples/progsys/Number_IO.py',
