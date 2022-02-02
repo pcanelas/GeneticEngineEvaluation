@@ -24,4 +24,4 @@ if __name__ == '__main__':
 
     #evaluate_ponyge(examples)
     evaluate_geneticengine(examples, mode)
-    # evaluate_ponyge2(examples, mode)
+    evaluate_ponyge2(examples, mode)
