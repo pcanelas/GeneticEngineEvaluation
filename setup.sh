@@ -6,3 +6,4 @@ python3 -m pip install -r requirements.txt
 cd ../PonyGE2
 python3 -m pip install -r requirements.txt
 cd ..
+python3 -m pip install -r requirements.txt
