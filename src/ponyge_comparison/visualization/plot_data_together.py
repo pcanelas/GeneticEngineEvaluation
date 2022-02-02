@@ -25,7 +25,7 @@ def plot_df(merged_dataframe, plot_info):
     
     plt.axvline(1.5, ls="--")
     plt.tight_layout()
-    plt.savefig(f"merged_plots.pdf")
+    plt.savefig(f"plots/merged_plots.pdf")
     plt.close()
 
 
@@ -106,7 +106,7 @@ if __name__ == '__main__':
 
     plt.title("Relative Time of PonyGE2 and GeneticEngine")
     plt.tight_layout()
-    plt.savefig(f"merged_plots_time.pdf")
+    plt.savefig(f"plots/merged_plots_time.pdf")
     plt.close()
 
 
@@ -146,5 +146,5 @@ if __name__ == '__main__':
 
     plt.title("Relative Fitness of PonyGE2 and GeneticEngine")
     plt.tight_layout()
-    plt.savefig(f"merged_plots_fitness.pdf")
+    plt.savefig(f"plots/merged_plots_fitness.pdf")
     plt.close()
