@@ -15,7 +15,7 @@ ponyge_examples = {
     'regression': 'parameters/regression.txt',
     'classification': 'parameters/classification.txt',
     'string_match': 'parameters/string_match.txt',
-    'vectorial': 'parameters/vectorialgp.txt',
+    'vectorialgp': 'parameters/vectorialgp.txt',
     
     # Progsys
     # 'number_io': 'parameters/number_io.txt',
