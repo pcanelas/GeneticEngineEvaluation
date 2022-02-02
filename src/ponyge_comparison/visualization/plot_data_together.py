@@ -52,99 +52,105 @@ if __name__ == '__main__':
         'example': '',
     }
 
+
     # #########################################################################
     # Create the total performance column
-    for example in examples:
-        if not example in ponyge_gens or not example in gengy_gens:
-            continue
+    if len(ponyge_gens) == len(gengy_gens) != 0:
+        print("Running time per generation plot")
+        for example in examples:
+            if not example in ponyge_gens or not example in gengy_gens:
+                continue
+            
+            ponyge_df = ponyge_gens[example]
+            gengine_df = gengy_gens[example]
+
+            cols = ['processing_time', 'evolution_time']
+
+            # Convert from ns to s
+            for df, column in itertools.product([ponyge_df, gengine_df], cols):
+                df[column] = df[column].apply(lambda x: x * pow(10, -9))
+            
+            ponyge_df['total'] = ponyge_df['processing_time'] + ponyge_df['evolution_time']
+            gengine_df['total'] = gengine_df['processing_time'] + gengine_df['evolution_time']
         
-        ponyge_df = ponyge_gens[example]
-        gengine_df = gengy_gens[example]
-
-        cols = ['processing_time', 'evolution_time']
-
-        # Convert from ns to s
-        for df, column in itertools.product([ponyge_df, gengine_df], cols):
-            df[column] = df[column].apply(lambda x: x * pow(10, -9))
         
-        ponyge_df['total'] = ponyge_df['processing_time'] + ponyge_df['evolution_time']
-        gengine_df['total'] = gengine_df['processing_time'] + gengine_df['evolution_time']
-    
-    
-    # #########################################################################
-    # Create the Merged Plot of time
-    cols = ['Tool', 'Benchmark', 'Time']
-    rows = []
+        # #########################################################################
+        # Create the Merged Plot of time
+        cols = ['Tool', 'Benchmark', 'Time']
+        rows = []
 
-    for column, example in enumerate(examples):
-        if not example in ponyge_gens or not example in gengy_gens:
-            continue
+        for column, example in enumerate(examples):
+            if not example in ponyge_gens or not example in gengy_gens:
+                continue
+            
+            ponyge_df = ponyge_gens[example]
+            gengine_df = gengy_gens[example]
+
+            ponyge_rows = list(ponyge_df['total'].values)
+            gengine_rows = list(gengine_df['total'].values) 
+            
+            for val in ponyge_rows:
+                rows.append(['PonyGE2', example, val])
+            
+            for val in gengine_rows:
+                rows.append(['GEngine', example, val])
+            
+        merged_dataframe =  pd.DataFrame(data=rows, columns=cols)
         
-        ponyge_df = ponyge_gens[example]
-        gengine_df = gengy_gens[example]
+        # Calculate the average
+        # print(merged_dataframe)
 
-        ponyge_rows = list(ponyge_df['total'].values)
-        gengine_rows = list(gengine_df['total'].values) 
-        
-        for val in ponyge_rows:
-            rows.append(['PonyGE2', example, val])
-        
-        for val in gengine_rows:
-            rows.append(['GEngine', example, val])
-        
-    merged_dataframe =  pd.DataFrame(data=rows, columns=cols)
-    
-    # Calculate the average
-    print(merged_dataframe)
+        merged_dataframe['Relative Time'] = merged_dataframe.apply(lambda x: x['Time'] / merged_dataframe[merged_dataframe['Tool'].str.contains('PonyGE2') & merged_dataframe['Benchmark'].str.contains(x['Benchmark'])].mean(), axis=1)
 
-    merged_dataframe['Relative Time'] = merged_dataframe.apply(lambda x: x['Time'] / merged_dataframe[merged_dataframe['Tool'].str.contains('PonyGE2') & merged_dataframe['Benchmark'].str.contains(x['Benchmark'])].mean(), axis=1)
+        axis = sns.barplot(data=merged_dataframe, x='Benchmark', y='Relative Time', hue='Tool')
 
-    axis = sns.barplot(data=merged_dataframe, x='Benchmark', y='Relative Time', hue='Tool')
+        for item in axis.get_xticklabels():
+            item.set_rotation(25)
 
-    for item in axis.get_xticklabels():
-        item.set_rotation(25)
+        plt.title("Relative Time of PonyGE2 and GeneticEngine")
+        plt.tight_layout()
+        plt.savefig(f"plots/merged_plots_time.pdf")
+        plt.close()
 
-    plt.title("Relative Time of PonyGE2 and GeneticEngine")
-    plt.tight_layout()
-    plt.savefig(f"plots/merged_plots_time.pdf")
-    plt.close()
 
 
     # #########################################################################
     # Create the Merged Plot of Fitness
+    if len(ponyge_timer) == len(gengy_timer) != 0:
+        print("Running fitness within time limit plot")
 
-    cols = ['Tool', 'Benchmark', 'Fitness']
-    rows = []
+        cols = ['Tool', 'Benchmark', 'Fitness']
+        rows = []
 
-    for column, example in enumerate(examples):
-        if not example in ponyge_gens or not example in gengy_gens:
-            continue
+        for column, example in enumerate(examples):
+            if not example in ponyge_timer or not example in gengy_timer:
+                continue
+            
+            ponyge_df = ponyge_timer[example]
+            gengine_df = gengy_timer[example]
+
+            ponyge_rows = list(ponyge_df['best_fitness'].values)
+            gengine_rows = list(gengine_df['best_fitness'].values) 
+            
+            for val in ponyge_rows:
+                rows.append(['PonyGE2', example, val])
+            
+            for val in gengine_rows:
+                rows.append(['GEngine', example, val])
+            
+        merged_dataframe =  pd.DataFrame(data=rows, columns=cols)
         
-        ponyge_df = ponyge_timer[example]
-        gengine_df = gengy_timer[example]
+        # Calculate the average
+        # print(merged_dataframe)
 
-        ponyge_rows = list(ponyge_df['best_fitness'].values)
-        gengine_rows = list(gengine_df['best_fitness'].values) 
-        
-        for val in ponyge_rows:
-            rows.append(['PonyGE2', example, val])
-        
-        for val in gengine_rows:
-            rows.append(['GEngine', example, val])
-        
-    merged_dataframe =  pd.DataFrame(data=rows, columns=cols)
-    
-    # Calculate the average
-    print(merged_dataframe)
+        merged_dataframe['Relative Fitness'] = merged_dataframe.apply(lambda x: x['Fitness'] / merged_dataframe[merged_dataframe['Tool'].str.contains('PonyGE2') & merged_dataframe['Benchmark'].str.contains(x['Benchmark'])].mean(), axis=1)
 
-    merged_dataframe['Relative Fitness'] = merged_dataframe.apply(lambda x: x['Fitness'] / merged_dataframe[merged_dataframe['Tool'].str.contains('PonyGE2') & merged_dataframe['Benchmark'].str.contains(x['Benchmark'])].mean(), axis=1)
+        axis = sns.barplot(data=merged_dataframe, x='Benchmark', y='Relative Fitness', hue='Tool')
 
-    axis = sns.barplot(data=merged_dataframe, x='Benchmark', y='Relative Fitness', hue='Tool')
+        for item in axis.get_xticklabels():
+            item.set_rotation(25)
 
-    for item in axis.get_xticklabels():
-        item.set_rotation(25)
-
-    plt.title("Relative Fitness of PonyGE2 and GeneticEngine")
-    plt.tight_layout()
-    plt.savefig(f"plots/merged_plots_fitness.pdf")
-    plt.close()
+        plt.title("Relative Fitness of PonyGE2 and GeneticEngine")
+        plt.tight_layout()
+        plt.savefig(f"plots/merged_plots_fitness.pdf")
+        plt.close()
