@@ -100,5 +100,5 @@ def evaluate_geneticengine(examples: list, mode):
         dataframe[name] = pd.DataFrame(output_list, columns=cols)
     
     os.chdir('..')
-    path = 'results/ponyge_comparison/gengine/'
+    path = 'results/gengine/'
     helper.write_to_csv_times(dataframe, mode, path)
