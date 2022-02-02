@@ -19,7 +19,7 @@ def create_folder(path):
         pass
 
 def import_data(examples, path, mode, delimiter):
-
+    print(f"From path {path} importing data of examples: {examples}.")
     onlyfiles = [f for f in listdir(path) if isfile(join(path, f))]
     
     res = dict()
