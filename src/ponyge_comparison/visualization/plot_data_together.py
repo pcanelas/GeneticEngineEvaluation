@@ -10,37 +10,17 @@ import seaborn as sns
 
 plt.rcParams["pdf.fonttype"] = 42
 plt.rcParams["ps.fonttype"] = 42
-sns.set_style({"font.family": "serif"})
-sns.set_theme(style="whitegrid")
 
 
-# def plot_df(merged_dataframe, plot_info):
-
-#     ax = sns.boxplot(data=merged_dataframe)
-
-#     tix = ['classification', 'game_of_life', 'median', 'number_io', 'regression', 'smallest', 'string_match', 'sum_of_squares', 'vectorial']
-#     #tix = "abcdefghi"
-#     plt.xticks([0.5, 2.5, 4.5, 6.5, 8.5, 10.5, 12.5, 14.5, 16.5], tix, rotation=45, fontsize=8)
-#     plt.title("Titulo temporario")
-
-#     ax.set_ylabel("Relative performance", fontsize=12)
-#     #ax.set_xlabel('Tools', fontsize=12)
-
-#     ax.set_ylim(ymin=0)
-
-#     plt.axvline(1.5, ls="--")
-#     plt.tight_layout()
-#     plt.savefig(f"plots/merged_plots.pdf")
-#     plt.close()
-
-
-def draw_barplot(df: pd.DataFrame, outbasename: str, what_to_plot: str = "Fitness"):
+def draw_barplot_and_boxplot(df: pd.DataFrame, outbasename: str, what_to_plot: str = "Fitness"):
     """
     Draws a barplot that compares the two tools
     relatively to some metric passed in the 'what_to_plot'
     argument, for all the existing examples.
     """
-      
+    sns.set_theme(style="whitegrid")
+    sns.set_style({"font.family": "serif"})
+    
     df["Relative {}".format(what_to_plot)] = df.apply(
         lambda x: x[what_to_plot]
         / df[
@@ -70,8 +50,6 @@ def draw_barplot(df: pd.DataFrame, outbasename: str, what_to_plot: str = "Fitnes
         )
 
         plt.xticks(rotation=45)
-
-        # plt.title("Relative Fitness of PonyGE2 and GeneticEngine")
         plt.tight_layout()
         plt.savefig("plots/{}_{}.pdf".format(outbasename, _kind))
         plt.close()
@@ -87,45 +65,48 @@ def draw_violin_with_facets(
     allows for the scale of the 'what_to_plot' to reflect
     absolute values, rather than relative.
     """
-    # melt_data = data.melt(
-    #     id_vars=["max_depth", "tool"], var_name="Benchmark", value_name="Fitness"
-    # )
+    sns.set_style({"font.family": "serif"})
+    sns.set(font_scale=0.75) 
+    
+    to_replace = {
+        "classification": "Classification",
+        "game_of_life": "Game of life",
+        "regression": "Regression",
+        "string_match": "String match",
+        "vectorialgp": "VectorialGP",
+    }
 
+    df = df.replace(to_replace)
     if what_to_plot == "Fitness":
-        to_replace = {
-            "classification": "classification (higher_is_better)",
-            "game_of_life": "game_of_life (higher_is_better)",
-            "regression": "regression (lower_is_better)",
-            "string_match": "string_match (lower_is_better)",
-            "vectorialgp": "vectorialgp (lower_is_better)",
-        }
+        maximize_examples = ['Classification', 'Game of life']
+        df['Fitness'] = df.apply(lambda x: x.Fitness if x.Benchmark in maximize_examples else x.Fitness * (-1), axis=1)
 
-        df = df.replace(to_replace)
-  
+    elif what_to_plot == "Time":
+        df['Time (s)'] = df.Time
+        what_to_plot = "Time (s)"    
+    
+    #palette = {"PonyGE2": "darkgrey", "GEngine": "indianred"}
     palette = {"PonyGE2": "steelblue", "GEngine": "pink"}
-    fig = plt.figure(figsize=(8, 6))
-    g = sns.catplot(
-        x="Tool",
-        y=what_to_plot,
-        sharey=False,
-        sharex=False,
-        palette=palette,
-        height=3,
-        aspect=1,
-        kind="violin",
-        col="Benchmark",
-        col_wrap=3,
-        data=df,
-    )
+  
+    g = sns.catplot(x="Tool",
+                    y=what_to_plot,
+                    sharey=False,
+                    sharex=False,
+                    palette=palette,
+                    height=1.7,
+                    aspect=1, 
+                    kind="violin",
+                    col="Benchmark",
+                    col_wrap=5,
+                    cut=0,
+                    fmt='.2',
+                    data=df)
 
-    (
-        g.set_axis_labels("Tool", what_to_plot)
-        .set_titles("{col_name}")
-        .despine(left=True)
-    )
-
-    g.savefig("plots/{}.pdf".format(outbasename))
-
+    g.set_axis_labels("", what_to_plot).set_titles("{col_name}").despine(left=True)
+    #g.set_xticklabels(fontsize=8).set_yticklabels(fontsize=8)
+    plt.tight_layout()
+    plt.savefig("plots/{}.pdf".format(outbasename))
+    sns.set(font_scale=1) 
 
 if __name__ == "__main__":
 
@@ -193,7 +174,7 @@ if __name__ == "__main__":
                 rows.append(["GEngine", example, val])
 
         merged_dataframe = pd.DataFrame(data=rows, columns=cols)
-        draw_barplot(
+        draw_barplot_and_boxplot(
             merged_dataframe, outbasename="merged_plots_time", what_to_plot="Time"
         )
         draw_violin_with_facets(merged_dataframe, outbasename="merged_plots_time_faceted", what_to_plot="Time")
@@ -224,7 +205,7 @@ if __name__ == "__main__":
 
         merged_dataframe = pd.DataFrame(data=rows, columns=cols)
 
-        draw_barplot(
+        draw_barplot_and_boxplot(
             merged_dataframe, outbasename="merged_plots_fitness", what_to_plot="Fitness"
         )
         
